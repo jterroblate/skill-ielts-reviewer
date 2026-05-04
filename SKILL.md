@@ -240,12 +240,25 @@ Y/N/NG logic:
 
 | Check | Flag if |
 |-------|--------|
-| Section 1 word instruction | Uses "ONE WORD ONLY" instead of "ONE WORD AND/OR A NUMBER" → 🟡 Warning |
-| Section 4 word instruction | Uses "ONE WORD AND/OR A NUMBER" instead of "ONE WORD ONLY" → 🟡 Warning |
-| Section 2 MCQ options | Uses 4 options (A-D) instead of 3 (A-C) → 🟢 Suggestion |
+| Part 1 word instruction | Uses "ONE WORD ONLY" instead of "ONE WORD AND/OR A NUMBER" → 🟡 Warning |
+| Part 4 word instruction | Uses "ONE WORD AND/OR A NUMBER" instead of "ONE WORD ONLY" → 🟡 Warning |
+| Section 2 MCQ options | Uses 4 options (A-D) instead of 3 (A-C) → 🔴 Critical |
 | Map labeling letter range | Uses letters that don't follow A-H pattern → 🟢 Suggestion |
 | Two-answer MCQ numbering | Spans single number instead of two (e.g., "Q21" instead of "Q21 and 22") → 🟡 Warning |
 
+### B8. Listening Question Design Checks (from C19-20 study)
+
+| Check | Flag if |
+|-------|--------|
+| Answer not in transcript | Fill-in answer not found verbatim in transcript → 🔴 Critical |
+| Part 1 answer too abstract | Answer is an abstract concept instead of concrete noun/number → 🟡 Warning |
+| Part 2 MCQ options not parallel | Options differ in length, grammar, or specificity → 🟡 Warning |
+| Part 2 MCQ has 4 options | Uses 4 options (A-D) instead of IELTS standard 3 (A-C) → 🔴 Critical |
+| Part 3 Choose TWO as separate Qs | Two-answer MCQ numbered as single question (e.g., "Q21" not "21 and 22") → 🟡 Warning |
+| Part 4 answer multi-word | Part 4 answer has more than 1 word → 🔴 Critical |
+| Distractor not plausible | Distractor uses concept not mentioned in transcript → 🟡 Warning |
+| Difficulty regression | Easier questions placed after harder ones → 🟢 Suggestion |
+| Signal word mismatch | Answer doesn't follow typical signal word pattern → 🟢 Suggestion |
 ---
 
 ## Panel Mode: Three-Editor Review (2026-04-30)
