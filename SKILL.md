@@ -177,23 +177,44 @@ This keeps the human in the loop while ensuring thorough quality control.
 | Implausible distractors | Wrong options use concepts NOT in the passage → 🟡 Warning |
 | Option symmetry | Options of different length or grammatical form → 🟢 Suggestion |
 
-### B2. Summary Completion Checks
+### B2. Fill-in Completion Checks
+
+**⚠️ STRUCTURAL CHECK — Most important: verify the FORMAT matches the LABEL**
 
 | Check | Flag if |
 |-------|--------|
-| Isolated sentences | Blanks are independent sentences, not one coherent paragraph → 🔴 Critical |
-| Word limit violation | "TWO WORDS" but answer is three words → 🔴 Critical |
+| Label mismatch | Questions labeled "Complete the summary" but written as separate sentences (NOT a flowing paragraph) → 🔴 Critical. Real IELTS "summary" always means ONE coherent paragraph. |
+| Label mismatch | Questions labeled "Complete the notes" but missing section headers → 🔴 Critical. Real IELTS "notes" always have section headers. |
+| Label mismatch | Questions labeled "Complete the sentences" but connected as a paragraph → 🟡 Warning. Real IELTS "sentences" are independent. |
+| Word limit violation | Instruction says "ONE WORD ONLY" but answer is two words → 🔴 Critical |
+| Instruction mismatch | Uses "NO MORE THAN TWO WORDS" when C20 uses "ONE WORD ONLY" for most reading → 🟡 Warning |
 | Answer not in passage | Fill-in answer not found verbatim in passage text → 🔴 Critical |
+| Definition-to-term mapping | Blank asks for a concept name that the passage explicitly defines (e.g., "The gradual loss of focus is ___" where passage says "term X describes...") → 🔴 Critical. This is the most common mistake. |
+| Near-verbatim summary | Summary copies passage structure with only the blank word removed → 🔴 Critical |
+| Comprehension vs scanning | Blank can be filled by keyword searching without understanding → 🟡 Warning |
+| Blank is abstract when concrete fits | Blank tests an adjective/adverb when a concrete noun could be tested instead → 🟢 Suggestion (C20 tests overwhelmingly concrete nouns) |
+| Notes section headers missing | Notes items lack organizing section headers → 🔴 Critical |
+| Non-parallel notes items | Items under same header have different grammatical styles → 🟢 Suggestion |
 
-### B3. Question Count & Type Checks
+### B3. Matching Information Checks
+
+| Check | Flag if |
+|-------|--------|
+| Sequential order | Question order matches paragraph alphabetical order (A→1, B→2, C→3...) → 🔴 Critical |
+| No NB when needed | Paragraph used multiple times but NB + "You may use any letter more than once" absent → 🔴 Critical |
+| Missing paragraph count | Instruction doesn't mention number of paragraphs (e.g., "has seven paragraphs, A-G") → 🟡 Warning |
+| Questions as short labels | Questions are single words instead of full descriptive phrases → 🟡 Warning |
+
+### B4. Question Count & Type Checks
 
 | Check | Flag if |
 |-------|--------|
 | Too few questions | <10 questions per passage → 🟡 Warning |
 | Missing question types | <3 different types across 5 passages → 🟡 Warning |
 | No speaking topic mapping | "Linked Speaking Topics" line absent → 🟡 Warning |
+| Missing Y/N/NG vs T/F/NG distinction | Opinion passage uses T/F/NG instead of Y/N/NG → 🟡 Warning |
 
-### B4. Answer Accuracy Quick-Verify
+### B5. Answer Accuracy Quick-Verify
 
 Fill-in answers: `answer.lower() in passage_text.lower()` — Must be True.
 
@@ -202,13 +223,28 @@ T/F/NG logic:
 - FALSE: statement says OPPOSITE of what passage states
 - NOT GIVEN: claim NOT addressed (comparisons, motivations, extrapolations)
 
-### B5. Technical Checks
+Y/N/NG logic:
+- YES: statement agrees with writer's CLAIMS/VIEWS
+- NO: statement contradicts writer's CLAIMS/VIEWS
+- NOT GIVEN: impossible to determine writer's opinion
+
+### B6. Technical Checks
 
 | Check | Flag if |
 |-------|--------|
 | `&apos;` in DOCX XML | Not supported by DOCX format → 🔴 Critical |
 | Question sequence | Doesn't follow passage order → 🟡 Warning |
 | Student/teacher alignment | Passage text differs between versions → 🔴 Critical |
+
+### B7. Listening-Specific Checks (for listening materials)
+
+| Check | Flag if |
+|-------|--------|
+| Section 1 word instruction | Uses "ONE WORD ONLY" instead of "ONE WORD AND/OR A NUMBER" → 🟡 Warning |
+| Section 4 word instruction | Uses "ONE WORD AND/OR A NUMBER" instead of "ONE WORD ONLY" → 🟡 Warning |
+| Section 2 MCQ options | Uses 4 options (A-D) instead of 3 (A-C) → 🟢 Suggestion |
+| Map labeling letter range | Uses letters that don't follow A-H pattern → 🟢 Suggestion |
+| Two-answer MCQ numbering | Spans single number instead of two (e.g., "Q21" instead of "Q21 and 22") → 🟡 Warning |
 
 ---
 
@@ -261,15 +297,28 @@ ANSWER KEY (teacher version):
 
 REVIEW CRITERIA:
 1. Is each answer uniquely supported by the passage?
-2. T/F/NG: TRUE=agrees, FALSE=contradicts, NOT GIVEN=no info
-3. Summary answers must appear VERBATIM in passage
-4. Word limits: "NO MORE THAN TWO WORDS" → answer ≤ 2 words
-5. MCQ options must be fully paraphrased (no copy-paste from passage)
-6. Distractors must be plausible (from passage content, wrong context)
-7. No number-recall MCQs allowed
-8. &apos; entities must be replaced with '
-9. Matching Headings must cover all paragraphs
-10. Question count ≥ 10 per passage
+2. T/F/NG (information): TRUE=agrees, FALSE=contradicts, NOT GIVEN=no info
+3. Y/N/NG (writer's views): YES=agrees with writer, NO=contradicts writer, NOT GIVEN=cannot determine
+4. Ensure Y/N/NG is used for opinion/argument passages, T/F/NG for factual ones
+5. Summary/Notes answers must appear VERBATIM in passage
+6. Word limits: "ONE WORD ONLY" → answer = 1 word; "ONE WORD AND/OR A NUMBER" → answer = 1 word or number or combination; "NO MORE THAN TWO WORDS" → answer ≤ 2 words
+   Note: C20 mostly uses ONE WORD ONLY or ONE WORD AND/OR A NUMBER for reading summaries, not NO MORE THAN TWO WORDS
+7. MCQ options must be fully paraphrased (no copy-paste from passage)
+8. Distractors must be plausible (from passage content, wrong context)
+9. No number-recall MCQs allowed
+10. &apos; entities must be replaced with '
+11. Matching Headings must cover all paragraphs
+12. Question count ≥ 10 per passage
+13. Matching Information: question order must NOT match paragraph order (A→1, B→2...)
+14. Matching Information: NB + "You may use any letter more than once" ONLY when paragraph is used twice (not as default)
+15. Summary/Notes Completion: CRITICAL — no definition-to-term mapping blanks (asking for a term the passage defines, like "X is called __"). Real IELTS blanks test content words: body parts, materials, animals, abstract nouns, adjectives, years. NEVER defined terms.
+16. Summary/Notes Completion: the surrounding text must be a genuine paraphrase, not near-verbatim copy with blank removed
+17. Summary/Notes Completion: if Notes format, use section headers organizing content hierarchically (C20 pattern)
+18. Listening Section 1: use "ONE WORD AND/OR A NUMBER" not "ONE WORD ONLY"
+19. Listening Section 4: use "ONE WORD ONLY" not "ONE WORD AND/OR A NUMBER"
+20. Listening Section 2 MCQ: use 3 options (A, B, C) not 4
+21. Two-answer MCQ in Listening Section 3: must span two question numbers (e.g., "21 and 22")
+22. Listening Part 1 Table format: "Complete the table below" with column headers is a valid alternative to notes
 
 OUTPUT FORMAT:
 - For each question: ✅ Correct / ❌ Issue Found
