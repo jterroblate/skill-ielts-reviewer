@@ -368,3 +368,28 @@ After every generation run, invoke this reviewer in Panel Mode:
 6. Deliver when panel agrees quality is sufficient
 
 The generator's workflow already includes this as Step 9 (Panel Review).
+
+
+### B9. Audio Quality Checks (for listening audio files)
+
+Run these checks on every generated audio file before delivery:
+
+| Check | Tool/Command | Pass/Fail |
+|:------|:-------------|:----------|
+| Duration 150-240s | `ffprobe -v error -show_entries format=duration -of csv=p=0 file.mp3` | 150 <= dur <= 240 |
+| Word count >= 450 | Count words in script | >= 450 |
+| File size >= 1.5MB | `ls -la file.mp3` | >= 1,500,000 bytes |
+| Valid MP3 | First bytes = ID3 or FF | header ok |
+| Voices all verified | Each voice ID returns 200 on test API call | All 200 |
+| Gender match | Compare char name gender vs voice gender | All match |
+| Enhance enabled | Check use_speaker_boost = True | True |
+| v3 model used | Check model_id = eleven_turbo_v2_5 | Correct |
+
+#### Common Audio QC Failures
+
+| Failure | What to do |
+|:--------|:-----------|
+| Duration < 150s | Script too short. Add content. Need 450+ words. |
+| File < 1.5MB | Audio truncated or only first segment. Recombine with ffmpeg. |
+| Wrong gender voice | Re-generate affected segments with correct voice. |
+| pause text spoken | Remove all [pause] tags. Use v3 model. |
