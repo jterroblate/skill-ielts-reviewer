@@ -260,26 +260,32 @@ After generating questions, spawn THREE independent editor sub-agents. Each inde
 Call: skill-ielts-reviewer --panel {unit} {passage}
 ```
 
-### Panel Process
+### Panel Process (MANDATORY — do not skip)
+
+**Every set of reading materials MUST undergo Panel Review before delivery.**
 
 1. **Generate questions** (via skill-ielts-generator)
 2. **Spawn 3 reviewer sub-agents** — each gets the same input:
    - Full passage text
-   - All questions (student version)
-   - Answer key (teacher version)
-   - Review criteria (Appendix B of this SKILL)
-3. **Each editor produces** a structured report with:
-   - Answer accuracy findings
+   - All questions (student version without answers)
+   - Answer key (teacher version with answers and explanations)
+   - Review criteria (Appendix B of this SKILL — full 22-point criteria)
+3. **Each editor produces** an independent structured report with:
+   - Answer accuracy findings for every question
    - Question quality issues (paraphrasing, distractors, type mix)
-   - Technical issues (&apos; entities, word limits, etc.)
-   - Specific fixes proposed for each issue
-4. **Compare reports** — merge findings:
-   - 🔴 3/3 agree → MUST FIX
-   - 🟡 2/3 agree → SHOULD FIX
-   - 🟢 1/3 flags → CONSIDER (optional)
-5. **Apply fixes** — fix all 🔴 and 🟡 issues
-6. **Re-review** — run panel again if major changes made
-7. **Deliver** — when panel agrees quality is sufficient
+   - Technical issues (&apos; entities, word limits, student/teacher alignment)
+   - Specific fixes proposed for each issue found
+4. **Compare reports** — merge findings by consensus:
+   - 🔴 3/3 agree → MUST FIX immediately
+   - 🟡 2/3 agree → SHOULD FIX before delivery
+   - 🟢 1/3 flags → CONSIDER if time permits
+   - 3/3 ✅ → Pass, no action needed
+5. **Apply all fixes** — fix all 🔴 and 🟡 issues found
+6. **Re-review from scratch** if any 🔴 issues were found — spawn 3 NEW sub-agents to verify fixes
+7. **Repeat** until all 3 sub-agents pass with no 🔴 or 🟡 issues
+8. **Deliver** — only when all 3 sub-agents agree quality is sufficient
+
+⚠️ **CRITICAL: This process is non-negotiable.** Do not deliver reading materials without completing Panel Review. U01-U04 sets all underwent this process.
 
 ### Editor Agent Task Template
 
